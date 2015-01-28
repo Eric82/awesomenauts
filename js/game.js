@@ -41,7 +41,7 @@ var game = {
 	"loaded" : function () {
             //this add the character to the pool of objects that we can use.
             // game.PlayerEntity connects the player to the game.
-                me.pool.register("player", game.PLayerEntity, true);
+                me.pool.register("player", game.PlayerEntity, true);
             
 		me.state.set(me.state.MENU, new game.TitleScreen());
 		me.state.set(me.state.PLAY, new game.PlayScreen());
