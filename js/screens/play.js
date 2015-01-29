@@ -10,6 +10,8 @@ game.PlayScreen = me.ScreenObject.extend({
                 //this will add the player to the game 
                 var player = me.pool.pull("player", 0, 420, {});
                 me.game.world.addChild(player, 5);
+                //this will enable the right key so my player moves right.
+                me.input.bindKey(me.input.KEY.RIGHT, "right");
 		// add our HUD to the game world
 		this.HUD = new game.HUD.Container();
 		me.game.world.addChild(this.HUD);
