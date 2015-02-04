@@ -48,10 +48,11 @@ game.PlayerEntity = me.Entity.extend({
             return true;
    }
 });
-
+//this is the information that we use for our player.
 game.PlayerBaseEntitiy = me.Entity.extend({
    init : function(x, y, settings){
         this._super(me.Entity, 'init', [x, y, {
+        //on the lines below is the description of the tower that we are going to use for our player.
            image: "tower",
            width: 100,
            height: 100,
@@ -61,11 +62,15 @@ game.PlayerBaseEntitiy = me.Entity.extend({
                return (new me.Rect(0, 0, 100, 100)).toPolygon();
            }
        }]);
+   //this broken will say that the tower is not broken and is still up.
        this.broken = false;
+       // this will be the health of the tower.
        this.health = 10;
+       //if the screen move and we can't see the tower it is always goingn to check if has been destroyed or not.
        this.alwaysUpdate = true;
+       //if the player runs into the tower he will coolide with it and be able to destroy it
        this.body.onCollision = this.onCollision.bind(this);
-       
+       //this is for other collisions and objects that will be for character.
        this.type = "PlayerBaseEntity";
    },
     
@@ -84,6 +89,7 @@ game.PlayerBaseEntitiy = me.Entity.extend({
     } 
     
 });
+//this is the enemy information
 game.EnemyBaseEntitiy = me.Entity.extend({
    init : function(x, y, settings){
         this._super(me.Entity, 'init', [x, y, {
