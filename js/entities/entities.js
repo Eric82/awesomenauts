@@ -15,7 +15,9 @@ game.PlayerEntity = me.Entity.extend({
             }]);
         
         //this line is the speed of my player
-        this.body.setVelocity(4, 20);
+        this.body.setVelocity(6, 10);
+        //keeps track of which direction your character is going
+        this.facing = "right";
         me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH);
 
         this.renderable.addAnimation("idle", [78]);
@@ -32,16 +34,18 @@ game.PlayerEntity = me.Entity.extend({
             //setVelocity() and multiplying it by me.timer.tick.
             //me.timer.tick makes the movement look smooth
             this.body.vel.x += this.body.accel.x * me.timer.tick;
+            this.facing = "right";
             this.flipX(true);
         } else if(me.input.isKeyPressed("left")){
             this.body.vel.x -=this.body.accel.x * me.timer.tick;
+            this.facing = "left";
             this.flipX(false);
         } else{
             this.body.vel.x = 0;
         }
         
         if(me.input.isKeyPressed("jump") && !this.jumping && !this.falling ){
-            this.jumping = true;
+            this.body.jumping = true;
             this.body.vel.y -= this.body.accel.y * me.timer.tick;
         }
         
@@ -60,16 +64,36 @@ game.PlayerEntity = me.Entity.extend({
         else if (this.body.vel.x !== 0) {
             if (!this.renderable.isCurrentAnimation("walk")) {
                 this.renderable.setCurrentAnimation("walk");
-            }
-        } else {
-            this.renderable.setCurrentAnimation("idle");
         }
+    } else {
+        this.renderable.setCurrentAnimation("idle");
+    }
         
-        this.body.update(delta);
+    me.collision.check(this, true, this.collideHandler.bind(this), true);    
+    this.body.update(delta);
 
         this._super(me.Entity, "update", [delta])
         return true;
+    },
+    
+    collideHandler: function(response){
+        if(response.b.type==='EnemyBaseEntity'){
+            var ydif = this.pos.y - response.b.pos.y;
+            var xdif = this.pos.x -response.b.pos.x;
+            
+            console.log("xdif " + xdif + "ydif " + ydif);
+            
+            if(xdif>-35 && this.facing=== 'right' && (xdif<0)){
+               this.body.vel.x = 0;
+               this.pos.x = this.pos.x -1;
+            }else if(xdif<70 && this.facing==='left' && xdif>0){
+                this.body.vel.x = 0;
+                this.pos.x = this.pos.x +1;
+            }
+        }
+        
     }
+    
 });
 //this is the information that we use for our player.
 game.PlayerBaseEntity = me.Entity.extend({
