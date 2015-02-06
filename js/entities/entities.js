@@ -18,6 +18,10 @@ game.PlayerEntity = me.Entity.extend({
         this.body.setVelocity(6, 10);
         //keeps track of which direction your character is going
         this.facing = "right";
+        this.now = new Date().getTime();
+        this.lastHit = this.now;
+        this.lastAttack = new Date().getTime();//Haven't used this
+        
         me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH);
 
         this.renderable.addAnimation("idle", [78]);
@@ -29,6 +33,7 @@ game.PlayerEntity = me.Entity.extend({
     },
     //in update function it will check if I pressed the key so that it moves when I press it.
     update: function(delta) {
+        this.now = new Date().getTime();
         if (me.input.isKeyPressed("right")) {
             //adds to the position of my x by the velocity defined above in 
             //setVelocity() and multiplying it by me.timer.tick.
@@ -61,11 +66,11 @@ game.PlayerEntity = me.Entity.extend({
         }
         
        
-        else if (this.body.vel.x !== 0) {
+        else if (this.body.vel.x !== 0 && !this.renderable.isCurrentAnimation("attack")) {
             if (!this.renderable.isCurrentAnimation("walk")) {
                 this.renderable.setCurrentAnimation("walk");
         }
-    } else {
+    } else if(!this.renderable.isCurrentAnimation("attack")){
         this.renderable.setCurrentAnimation("idle");
     }
         
@@ -91,6 +96,12 @@ game.PlayerEntity = me.Entity.extend({
             }else if(xdif<70 && this.facing==='left' && xdif>0){
                 this.body.vel.x = 0;
                 this.pos.x = this.pos.x +1;
+            }
+            
+            if(this.renderable.isCurrentAnimation("attack") && this.now-this.lastHit >= 1000){
+               console.log("tower Hit");
+                this.lastHit = this.now;
+                response.b.loseHealth();
             }
         }
     }
@@ -178,6 +189,10 @@ game.EnemyBaseEntity = me.Entity.extend({
     },
     onCollision: function() {
 
+    },
+    
+    loseHealth: function(){
+        this.health--;
     }
 
 });
