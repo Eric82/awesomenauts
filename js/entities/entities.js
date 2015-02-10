@@ -15,7 +15,7 @@ game.PlayerEntity = me.Entity.extend({
             }]);
         
         //this line is the speed of my player
-        this.body.setVelocity(6, 10);
+        this.body.setVelocity(8, 4);
         //keeps track of which direction your character is going
         this.facing = "right";
         this.now = new Date().getTime();
@@ -77,7 +77,7 @@ game.PlayerEntity = me.Entity.extend({
     me.collision.check(this, true, this.collideHandler.bind(this), true);    
     this.body.update(delta);
 
-        this._super(me.Entity, "update", [delta])
+        this._super(me.Entity, "update", [delta]);
         return true;
     },
     
@@ -202,9 +202,9 @@ game.EnemyCreep = me.Entity.extend({
         this._super(me.Entity, 'init', [x, y, {
             image: "creep1",
             width: 32,
-            height: 32,
+            height: 64,
             spritewidth:"32",
-            spriteheight:"32",
+            spriteheight:"64",
             getShape: function(){
                 return (new me.Rect(0, 0, 32, 64)).toPolygon();
             }
@@ -220,8 +220,16 @@ game.EnemyCreep = me.Entity.extend({
         this.renderable.setCurrentAnimation("walk");
     },
     
-    update: function(){
+    update: function(delta){
         
+        //this is for my creep to move around.
+        this.body.vel.x -= this.body.accel.x * me.timer.tick;
+        
+        this.body.update(delta);
+
+        this._super(me.Entity, "update", [delta]);
+        
+        return true;
     }
 });
 
