@@ -16,7 +16,7 @@ game.PlayerEntity = me.Entity.extend({
         this.type = "PlayerEntity";
         this.health = 20;
         //this line is the speed of my player
-        this.body.setVelocity(5, 10);
+        this.body.setVelocity(5, 15);
         //keeps track of which direction your character is going
         this.facing = "right";
         this.now = new Date().getTime();
@@ -50,9 +50,11 @@ game.PlayerEntity = me.Entity.extend({
             this.body.vel.x = 0;
         }
         
-        if(me.input.isKeyPressed("jump") && !this.jumping && !this.falling ){
-            this.body.jumping = true;
-            this.body.vel.y -= this.body.accel.y * me.timer.tick;
+        if(me.input.isKeyPressed("jump")){
+            if(!this.body.jumping && !this.body.falling){
+                this.body.vel.y = -this.body.maxVel.y * me.timer.tick;
+                this.body.jumping = true;
+            }
         }
         
         if(me.input.isKeyPressed("attack")){
@@ -83,20 +85,20 @@ game.PlayerEntity = me.Entity.extend({
     },
     
     loseHealth: function(damage){
-      this.health = this.health = damage;
+      this.health = this.health - damage;
       console.log(this.health);
     },
     
     collideHandler: function(response){
         if(response.b.type==='EnemyBaseEntity'){
             var ydif = this.pos.y - response.b.pos.y;
-            var xdif = this.pos.x -response.b.pos.x;
+            var xdif = this.pos.x - response.b.pos.x;
             
-            if(ydif<-40 && xdif< 70 && xdif>-35) {
+            if(ydif<=40 && xdif< 70 && xdif>=35) {
                 this.body.falling = false;
                 this.body.vel.y = -1;
             }
-            else if(xdif>-35 && this.facing=== 'right' && (xdif<0)){
+            else if(xdif>=35 && this.facing=== 'right' && (xdif<0)){
                this.body.vel.x = 0;
                this.pos.x = this.pos.x -1;
             }else if(xdif<70 && this.facing==='left' && xdif>0){
