@@ -106,15 +106,36 @@ game.PlayerEntity = me.Entity.extend({
                 this.body.vel.x = 0;
                 this.pos.x = this.pos.x +1;
             }
-            
             if(this.renderable.isCurrentAnimation("attack") && this.now-this.lastHit >= 1000){
                console.log("tower Hit");
                 this.lastHit = this.now;
                 response.b.loseHealth();
             }
+        }else if(response.b.type==='EnemyCreep'){
+            var xdif = this.pos.x - response.b.pos.x;
+            var ydif = this.pos.y - response.b.pos.y;
+            //this will let us be able to hit our creep without having trouble.
+            if (xdif>0){
+                this.pos.x = this.pos.x + 1;
+                if(this.facing==="left"){
+                    this.body.vel.x = 0;
+                }
+                //if the code above doesn't work it willdo this bottom code.
+            }else{
+                this.pos.x = this.pos.x - 1;
+                if(this.facing==="right"){
+                    this.body.vel.x = 0;
+                }
+            }
+            if(this.renderable.isCurrentAnimation("attack") && this.now-this.lastHit >= 1000
+                 && (Math.abs(ydif) <=40) && 
+                 (((xdif>0 ) && this.facing==="left") || ((xdif<0) && this.facing==="right"))
+                 ){
+                this.lastHit = this.now;
+                response.b.loseHealth(1);
+            }
         }
     }
-    
 });
 //this is the information that we use for our player.
 game.PlayerBaseEntity = me.Entity.extend({
@@ -241,7 +262,15 @@ game.EnemyCreep = me.Entity.extend({
         this.renderable.setCurrentAnimation("walk");
     },
     
+    loseHealth: function(damage){
+       this.health = this.health - damage; 
+    },
+    //when our character dies he disappears. 
     update: function(delta){
+        if(this.health <= 0){
+            me.game.world.removeChild(this);
+        }
+        
         this.now = new Date().getTime();
         
         //this is for my creep to move around.
@@ -277,11 +306,10 @@ game.EnemyCreep = me.Entity.extend({
             
              this.attacking=true;
             //this.lastAttacking=this.now;
-            this.body.vel.x = 0;
             
             if(xdif>0){
                 //keeps moving the creep to the right to maintain its position
-                this.pos.x = this.pos.x +1;
+                this.pos.x = this.pos.x + 1;
                 this.body.vel.x = 0;
             }
             //checks that it has been at least 1 second since this creep hit something
