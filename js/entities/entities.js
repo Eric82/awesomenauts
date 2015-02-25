@@ -2,7 +2,32 @@
 game.PlayerEntity = me.Entity.extend({
     init: function(x, y, settings) {
         //this is telling us the information about the character that we are trying to use
-        this._super(me.Entity, 'init', [x, y, {
+        this.setSuper();
+        this.setPlayerTimers();
+        this.setAttibutes();
+        
+        this.type = "PlayerEntity";
+        this.setFlags();
+        
+        //keeps track of which direction your character is going
+        this.facing = "right";
+        
+        this.dead = false;
+        
+        me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH);
+
+        this.addAnimation();
+
+        this.renderable.addAnimation("idle", [78]);
+        //this will animate my character while he walks.
+        this.renderable.addAnimation("walk", [117, 118, 119, 120, 121, 123, 124, 125]);
+        this.renderable.addAnimation("attack", [65, 66, 67, 68, 69, 70, 71, 72], 80);
+        
+        this.renderable.setCurrentAnimation("idle");
+    },
+    
+    setSuper:function(){
+       this._super(me.Entity, 'init', [x, y, {
                 image: "player",
                 width: 64,
                 height: 64,
@@ -12,29 +37,33 @@ game.PlayerEntity = me.Entity.extend({
                     return(new me.Rect(0, 0, 64, 64)).toPolygon();
 
                 }
-        }]);
-        this.type = "PlayerEntity";
-        this.health = game.data.playerHealth;
-        //this line is the speed of my player
-        this.body.setVelocity(game.data.playerMoveSpeed, 15);
-        //keeps track of which direction your character is going
-        this.facing = "right";
+        }]); 
+    },
+    
+    setPlayerTimes: function(){
         this.now = new Date().getTime();
         this.lastHit = this.now;
-        this.dead = false;
-        this.attack = game.data.playerAttack
+        this.lastAttack = new Date().getTime();
+    },
+    
+    setAttributes: function(){
+        this.health = game.data.playerHealth;//Haven't used this
+        //this line is the speed of my player
+        this.body.setVelocity(game.data.playerMoveSpeed, 15);
+        this.attack = game.data.playerAttack;
+    },
+    
+    setFlags: function(){
         
-        this.lastAttack = new Date().getTime();//Haven't used this
-        
-        me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH);
-
+    },
+    
+    addAnimation: function(){
         this.renderable.addAnimation("idle", [78]);
         //this will animate my character while he walks.
         this.renderable.addAnimation("walk", [117, 118, 119, 120, 121, 123, 124, 125]);
         this.renderable.addAnimation("attack", [65, 66, 67, 68, 69, 70, 71, 72], 80);
-        
-        this.renderable.setCurrentAnimation("idle");
     },
+    
     //in update function it will check if I pressed the key so that it moves when I press it.
     update: function(delta) {
         this.now = new Date().getTime();
