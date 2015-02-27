@@ -9,11 +9,6 @@ game.PlayerEntity = me.Entity.extend({
         this.type = "PlayerEntity";
         this.setFlags();
         
-        //keeps track of which direction your character is going
-        this.facing = "right";
-        
-        this.dead = false;
-        
         me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH);
 
         this.addAnimation();
@@ -54,7 +49,10 @@ game.PlayerEntity = me.Entity.extend({
     },
     
     setFlags: function(){
-        
+        //keeps track of which direction your character is going
+        this.facing = "right";
+        this.dead = false;
+        this.attacking = false;
     },
     
     addAnimation: function(){
@@ -67,35 +65,11 @@ game.PlayerEntity = me.Entity.extend({
     //in update function it will check if I pressed the key so that it moves when I press it.
     update: function(delta) {
         this.now = new Date().getTime();
-        
         this.dead = checkIfDead();
-        
         this.checkKeyPressesAndMove();
-        
-        if(me.input.isKeyPressed("attack")){
-            if(!this.renderable.isCurrentAnimation("attack")){
-                //Sets the current animation to attack  and once that is over
-                //goes back to the idle animation
-                this.renderable.setCurrentAnimation("attack", "idle");
-                //Makes it so that the next time we start this sequence we begin
-                //from the first animation, not wherever we left off when we 
-                //switched to another animation
-                this.renderable.setAnimationFrame();
-            }    
-        }
-        
-       
-        else if (this.body.vel.x !== 0 && !this.renderable.isCurrentAnimation("attack")) {
-            if (!this.renderable.isCurrentAnimation("walk")) {
-                this.renderable.setCurrentAnimation("walk");
-        }
-    } else if(!this.renderable.isCurrentAnimation("attack")){
-        this.renderable.setCurrentAnimation("idle");
-    }
-        
-    me.collision.check(this, true, this.collideHandler.bind(this), true);    
-    this.body.update(delta);
-
+        set.Animation();
+        me.collision.check(this, true, this.collideHandler.bind(this), true);    
+        this.body.update(delta);
         this._super(me.Entity, "update", [delta]);
         return true;
     },
@@ -119,6 +93,7 @@ game.PlayerEntity = me.Entity.extend({
         if(me.input.isKeyPressed("jump")){
             this.jump();
         }
+        this.attcking = me.input.isKeyPressed("attack");
     },
     
     moveRight: function(){
@@ -140,6 +115,27 @@ game.PlayerEntity = me.Entity.extend({
         if(!this.body.jumping && !this.body.falling){
             this.body.vel.y = -this.body.maxVel.y * me.timer.tick;
             this.body.jumping = true;
+        }
+    },
+    
+    setAnimation: function(){
+      if(this.attacking){
+            if(!this.renderable.isCurrentAnimation("attack")){
+                //Sets the current animation to attack  and once that is over
+                //goes back to the idle animation
+                this.renderable.setCurrentAnimation("attack", "idle");
+                //Makes it so that the next time we start this sequence we begin
+                //from the first animation, not wherever we left off when we 
+                //switched to another animation
+                this.renderable.setAnimationFrame();
+            }    
+        }
+        else if (this.body.vel.x !== 0 && !this.renderable.isCurrentAnimation("attack")) {
+            if (!this.renderable.isCurrentAnimation("walk")) {
+                this.renderable.setCurrentAnimation("walk");
+            }
+        }else if(!this.renderable.isCurrentAnimation("attack")){
+        this.renderable.setCurrentAnimation("idle");
         }
     },
     
