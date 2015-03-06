@@ -13,7 +13,7 @@ game.TitleScreen = me.ScreenObject.extend({
                     },
                     
                     draw: function(renderer){
-                        this.font.draw(renderer.getContext(), "START A NEW GAME", this.pos.x, 130);
+                        this.font.draw(renderer.getContext(), "START A NEW GAME", this.pos.x, this.pos.y);
                     },
                     
                     update: function(dt){
@@ -27,6 +27,27 @@ game.TitleScreen = me.ScreenObject.extend({
                         me.save.remove('exp2');
                         me.save.remove('exp3');
                         me.save.remove('exp4');
+                        me.state.change(me.state.PLAY);
+                    }
+                })));
+                
+                me.game.world.addChild(new (me.Renderable.extend({
+                    init: function(){
+                        this._super(me.Renderable, 'init', [380, 340, 250, 50]);
+                        this.font = new me.Font("Arial", 46, "white");
+                        me.input.registerPointerEvent('pointerdown', this, this.newGame.bind(this), true)
+                    },
+                    
+                    draw: function(renderer){
+                        this.font.draw(renderer.getContext(), "CONTINUE", this.pos.x, this.pos.y);
+                    },
+                    
+                    update: function(dt){
+                        return true;
+                    },
+                    
+                    newGame: function (){
+                        me.input.releasePointerEvent('pointerdown', this);
                         me.state.change(me.state.PLAY);
                     }
                 })));

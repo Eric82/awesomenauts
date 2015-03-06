@@ -3,14 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/EricMawesomenauts/js/entities/EnemyBaseEntity.js</file>
-            <file>file:/C:/xampp/htdocs/EricMawesomenauts/js/resources.js</file>
             <file>file:/C:/xampp/htdocs/EricMawesomenauts/js/screens/play.js</file>
             <file>file:/C:/xampp/htdocs/EricMawesomenauts/js/screens/title.js</file>
             <file>file:/C:/xampp/htdocs/EricMawesomenauts/js/game.js</file>
+            <file>file:/C:/xampp/htdocs/EricMawesomenauts/js/entities/GameManager.js</file>
             <file>file:/C:/xampp/htdocs/EricMawesomenauts/js/entities/entities.js</file>
-            <file>file:/C:/xampp/htdocs/EricMawesomenauts/js/entities/EnemyCreep.js</file>
-            <file>file:/C:/xampp/htdocs/EricMawesomenauts/js/entities/PlayerBaseEntity.js</file>
         </group>
     </open-files>
 </project-private>
