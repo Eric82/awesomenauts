@@ -11,8 +11,11 @@ game.PlayScreen = me.ScreenObject.extend({
                 
                 this.resetPlayer(0, 420);
                 
-                var gamemanager = me.pool.pull("GameManager", 0, 0, {});
-                me.game.world.addChild(gamemanager, 0);
+                var gameTimerManager = me.pool.pull("GameTimerManager", 0, 0, {});
+                me.game.world.addChild(gameTimerManager, 0);
+                
+                var HeroDeathManager = me.pool.pull("HeroDeathManager", 0, 0, {});
+                me.game.world.addChild(HeroDeathManager, 0);
                 
                 
                 //this will enable the right key so my player moves right.

@@ -1,5 +1,5 @@
 //this is the enemy information
-game.EnemyBaseEntty = me.Entity.extend({
+game.EnemyBaseEntity = me.Entity.extend({
     init: function(x, y, settings) {
         this._super(me.Entity, 'init', [x, y, {
                 image: "tower",
