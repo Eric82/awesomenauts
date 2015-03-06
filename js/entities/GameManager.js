@@ -9,19 +9,25 @@ game.GameTimerManager = Object.extend({
     update: function(){
         this.now = new Date().getTime();
         //this will check if my character is dead 
+        this.goldTimerCheck();
+        this.creepTimerCheck();
         
-        if(Math.round(this.now/1000)%20 ===0 && (this.now - this.lastCreep >= 1000)){
+        return true;
+    },
+    
+    goldTimerCheck: function(){
+    if(Math.round(this.now/1000)%20 ===0 && (this.now - this.lastCreep >= 1000)){
             game.data.gold += 1;
         }
-        
+    },
+    
+    creepTimerCheck: function (){
         if(Math.round(this.now/1000)%10 ===0 && (this.now - this.lastCreep >= 1000)){
             this.lastCreep = this.now;
             var creepe = me.pool.pull("EnemyCreep", 1000, 0, {});
             me.game.world.addChild(creepe, 5);
         }
-        
-        return true;
-    } 
+    }
 });
 
 game.HeroDeathManager = Object.extend({
