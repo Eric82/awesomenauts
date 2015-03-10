@@ -9,7 +9,7 @@ var game = {
                 enemyBaseHealth: 1,
                 playerBaseHealth: 1,
                 enemyCreepHealth: 10,
-                playerHealth: 10,
+                playerHealth: 1,
                 enemyCreepAttack: 1,
                 playerAttack: 1,
                     //orcBaseDamage: 10,
@@ -72,7 +72,7 @@ var game = {
                 me.pool.register("PlayerBase", game.PlayerBaseEntity);
                 me.pool.register("EnemyBase", game.EnemyBaseEntity);
                 me.pool.register("EnemyCreep", game.EnemyCreep, true);
-                me.pool.register("GameTimerManager", game.GameManager);
+                me.pool.register("GameTimerManager", game.GameTimerManager);
                 me.pool.register("HeroDeathManager", game.HeroDeathManager);
                 me.pool.register("ExperienceManager", game.ExperienceManager);
                 

@@ -85,7 +85,7 @@ game.PlayerEntity = me.Entity.extend({
         if (me.input.isKeyPressed("jump")) {
             this.jump();
         }
-        this.attcking = me.input.isKeyPressed("attack");
+        this.attacking = me.input.isKeyPressed("attack");
     },
     moveRight: function() {
         //adds to the position of my x by the velocity defined above in 
@@ -163,7 +163,6 @@ game.PlayerEntity = me.Entity.extend({
         if (this.checkAttack(xdif, ydif)) {
             this.hitCreep(response);
         }
-        ;
     },
     stopMovement: function(xdif) {
         //this will let us be able to hit our creep without having trouble.
