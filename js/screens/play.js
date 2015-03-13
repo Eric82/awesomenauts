@@ -21,7 +21,15 @@ game.PlayScreen = me.ScreenObject.extend({
                 me.game.world.addChild(ExperienceManager, 0);
                 
                 
+                var spendGold = me.pool.pull("SpendGold", 0, 0, {});
+                me.game.world.addChild(spendGold, 0);
+                
+                
                 //this will enable the right key so my player moves right.
+                me.input.bindKey(me.input.B, "buy");
+                me.input.bindKey(me.input.KEY.Q, "skill");
+                me.input.bindKey(me.input.KEY.W, "skill2");
+                me.input.bindKey(me.input.KEY.E, "skill3");
                 me.input.bindKey(me.input.KEY.RIGHT, "right");
                 me.input.bindKey(me.input.KEY.LEFT, "left");
                 me.input.bindKey(me.input.KEY.SPACE, "jump");
