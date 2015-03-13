@@ -5,12 +5,11 @@
         <group>
             <file>file:/C:/xampp/htdocs/EricMawesomenauts/js/resources.js</file>
             <file>file:/C:/xampp/htdocs/EricMawesomenauts/js/screens/play.js</file>
+            <file>file:/C:/xampp/htdocs/EricMawesomenauts/js/screens/title.js</file>
             <file>file:/C:/xampp/htdocs/EricMawesomenauts/js/game.js</file>
             <file>file:/C:/xampp/htdocs/EricMawesomenauts/js/entities/GameManager.js</file>
             <file>file:/C:/xampp/htdocs/EricMawesomenauts/js/screens/spendExp.js</file>
-            <file>file:/C:/xampp/htdocs/EricMawesomenauts/index.php</file>
             <file>file:/C:/xampp/htdocs/EricMawesomenauts/js/entities/entities.js</file>
-            <file>file:/C:/xampp/htdocs/EricMawesomenauts/js/entities/PlayerBaseEntity.js</file>
         </group>
     </open-files>
 </project-private>
