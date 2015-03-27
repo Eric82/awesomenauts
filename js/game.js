@@ -25,13 +25,17 @@ var game = {
                 player: "",
                 exp: 0,
                 gold: 0,
+                ability1: 0,
+                ability2: 0,
+                ability3: 0,
                 exp1: 0,
                 exp2: 0,
                 exp3: 0,
                 exp4: 0,
                 win:"",
                 pausePos:"",
-                buyscreen:""
+                buyscreen:"",
+                buytext:""
         },
         
 	
